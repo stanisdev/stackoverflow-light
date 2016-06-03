@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        <link href="{{ asset('resources/css/bootstrap.min.css') }}" rel="stylesheet" />
+        <script src="{{ asset('resources/js/jquery-1.10.2.min.js') }}"></script>
+        <script src="{{ asset('resources/js/bootstrap.min.js') }}"></script>
+    </head>
+    <body>
+        <div class="container">
+            {% include('_partials/navigation.html.twig') %}
+        </div>
+        {% block body %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>
