@@ -3,6 +3,7 @@
 namespace DiscussionBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Question
@@ -44,25 +45,22 @@ class Question
     private $uid;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="viewed", type="integer", options={"unsigned":true, "default":0})
-     */
-    private $viewed = 0;
-
-    /**
-     * @var smallint
-     *
-     * @ORM\Column(name="rating", type="smallint", options={"unsigned":true, "default":0})
-     */
-    private $rating = 0;
-
-    /**
      * @var datetime
      *
      * @ORM\Column(name="created_at", type="datetime", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
      */
     private $createdAt;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Tag", inversedBy="questions")
+     * @ORM\JoinTable(name="questions_tags")
+     */
+    private $tags;
+
+    public function __construct()
+    {
+        $this->tags = new ArrayCollection();
+    }
 
     /**
      * @ORM\PrePersist
@@ -155,30 +153,6 @@ class Question
     }
 
     /**
-     * Set viewed
-     *
-     * @param integer $viewed
-     *
-     * @return Question
-     */
-    public function setViewed($viewed)
-    {
-        $this->viewed = $viewed;
-
-        return $this;
-    }
-
-    /**
-     * Get viewed
-     *
-     * @return int
-     */
-    public function getViewed()
-    {
-        return $this->viewed;
-    }
-
-    /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
@@ -200,5 +174,39 @@ class Question
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    /**
+     * Add tag
+     *
+     * @param \DiscussionBundle\Entity\Tag $tag
+     *
+     * @return Question
+     */
+    public function addTag(\DiscussionBundle\Entity\Tag $tag)
+    {
+        $this->tags[] = $tag;
+
+        return $this;
+    }
+
+    /**
+     * Remove tag
+     *
+     * @param \DiscussionBundle\Entity\Tag $tag
+     */
+    public function removeTag(\DiscussionBundle\Entity\Tag $tag)
+    {
+        $this->tags->removeElement($tag);
+    }
+
+    /**
+     * Get tags
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTags()
+    {
+        return $this->tags;
     }
 }
