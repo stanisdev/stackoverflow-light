@@ -29,11 +29,33 @@ class User extends BaseUser
      */
     private $questionsChangedRating;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Question", mappedBy="user")
+     */
+    private $questions;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Answer", mappedBy="user")
+     */
+    private $answers;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="user")
+     */
+    private $comments;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Question", mappedBy="usersSavedQuestionAsFavorite")
+     */
+    private $questionsSavedAsFavorite;
+
     public function __construct()
     {
         parent::__construct();
         $this->viewedQuestions = new ArrayCollection();
         $this->questionsChangedRating = new ArrayCollection();
+        $this->$questions = new ArrayCollection();
+        $this->$answers = new ArrayCollection();
     }
 
     /**
@@ -102,5 +124,141 @@ class User extends BaseUser
     public function getQuestionsChangedRating()
     {
         return $this->questionsChangedRating;
+    }
+
+    /**
+     * Add question
+     *
+     * @param \DiscussionBundle\Entity\Question $question
+     *
+     * @return User
+     */
+    public function addQuestion(\DiscussionBundle\Entity\Question $question)
+    {
+        $this->questions[] = $question;
+
+        return $this;
+    }
+
+    /**
+     * Remove question
+     *
+     * @param \DiscussionBundle\Entity\Question $question
+     */
+    public function removeQuestion(\DiscussionBundle\Entity\Question $question)
+    {
+        $this->questions->removeElement($question);
+    }
+
+    /**
+     * Get questions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getQuestions()
+    {
+        return $this->questions;
+    }
+
+    /**
+     * Add answer
+     *
+     * @param \DiscussionBundle\Entity\Answer $answer
+     *
+     * @return User
+     */
+    public function addAnswer(\DiscussionBundle\Entity\Answer $answer)
+    {
+        $this->answers[] = $answer;
+
+        return $this;
+    }
+
+    /**
+     * Remove answer
+     *
+     * @param \DiscussionBundle\Entity\Answer $answer
+     */
+    public function removeAnswer(\DiscussionBundle\Entity\Answer $answer)
+    {
+        $this->answers->removeElement($answer);
+    }
+
+    /**
+     * Get answers
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAnswers()
+    {
+        return $this->answers;
+    }
+
+    /**
+     * Add questionsSavedAsFavorite
+     *
+     * @param \DiscussionBundle\Entity\Question $questionsSavedAsFavorite
+     *
+     * @return User
+     */
+    public function addQuestionsSavedAsFavorite(\DiscussionBundle\Entity\Question $questionsSavedAsFavorite)
+    {
+        $this->questionsSavedAsFavorite[] = $questionsSavedAsFavorite;
+
+        return $this;
+    }
+
+    /**
+     * Remove questionsSavedAsFavorite
+     *
+     * @param \DiscussionBundle\Entity\Question $questionsSavedAsFavorite
+     */
+    public function removeQuestionsSavedAsFavorite(\DiscussionBundle\Entity\Question $questionsSavedAsFavorite)
+    {
+        $this->questionsSavedAsFavorite->removeElement($questionsSavedAsFavorite);
+    }
+
+    /**
+     * Get questionsSavedAsFavorite
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getQuestionsSavedAsFavorite()
+    {
+        return $this->questionsSavedAsFavorite;
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \DiscussionBundle\Entity\Comment $comment
+     *
+     * @return User
+     */
+    public function addComment(\DiscussionBundle\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \DiscussionBundle\Entity\Comment $comment
+     */
+    public function removeComment(\DiscussionBundle\Entity\Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }
