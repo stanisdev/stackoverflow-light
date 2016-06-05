@@ -57,9 +57,25 @@ class Question
      */
     private $tags;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="viewedQuestions")
+     * @ORM\JoinTable(name="viewed_questions_by_users")
+     */
+    private $viewedByUsers;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Rating", mappedBy="question")
+     */
+    private $usersChangedRating;
+
+    /**
+     * Constructor method
+     */
     public function __construct()
     {
         $this->tags = new ArrayCollection();
+        $this->viewedByUsers = new ArrayCollection();
+        $this->usersChangedRating = new ArrayCollection();
     }
 
     /**
@@ -208,5 +224,73 @@ class Question
     public function getTags()
     {
         return $this->tags;
+    }
+
+    /**
+     * Add viewedByUser
+     *
+     * @param \DiscussionBundle\Entity\User $viewedByUser
+     *
+     * @return Question
+     */
+    public function addViewedByUser(\DiscussionBundle\Entity\User $viewedByUser)
+    {
+        $this->viewedByUsers[] = $viewedByUser;
+
+        return $this;
+    }
+
+    /**
+     * Remove viewedByUser
+     *
+     * @param \DiscussionBundle\Entity\User $viewedByUser
+     */
+    public function removeViewedByUser(\DiscussionBundle\Entity\User $viewedByUser)
+    {
+        $this->viewedByUsers->removeElement($viewedByUser);
+    }
+
+    /**
+     * Get viewedByUsers
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getViewedByUsers()
+    {
+        return $this->viewedByUsers;
+    }
+
+    /**
+     * Add usersChangedRating
+     *
+     * @param \DiscussionBundle\Entity\Rating $usersChangedRating
+     *
+     * @return Question
+     */
+    public function addUsersChangedRating(\DiscussionBundle\Entity\Rating $usersChangedRating)
+    {
+        $this->usersChangedRating[] = $usersChangedRating;
+
+        return $this;
+    }
+
+    /**
+     * Remove usersChangedRating
+     *
+     * @param \DiscussionBundle\Entity\Rating $usersChangedRating
+     */
+    public function removeUsersChangedRating(\DiscussionBundle\Entity\Rating $usersChangedRating)
+    {
+        $this->usersChangedRating->removeElement($usersChangedRating);
+    }
+
+    /**
+     * Get usersChangedRating
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUsersChangedRating()
+    {
+        return $this->usersChangedRating;
     }
 }

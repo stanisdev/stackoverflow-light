@@ -34,6 +34,8 @@ class OverviewController extends Controller
         //     echo $tag->getId();
         // }
 
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+        }
         return $this->render('overview/questions.html.twig', []);
     }
 
