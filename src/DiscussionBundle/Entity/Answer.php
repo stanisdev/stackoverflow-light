@@ -54,6 +54,11 @@ class Answer
     private $user;
 
     /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="answer")
+     */
+    private $comments;
+
+    /**
      * Get id
      *
      * @return int
@@ -181,5 +186,46 @@ class Answer
     public function getUser()
     {
         return $this->user;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \DiscussionBundle\Entity\Comment $comment
+     *
+     * @return Answer
+     */
+    public function addComment(\DiscussionBundle\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \DiscussionBundle\Entity\Comment $comment
+     */
+    public function removeComment(\DiscussionBundle\Entity\Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }

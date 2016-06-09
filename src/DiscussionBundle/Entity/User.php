@@ -54,8 +54,10 @@ class User extends BaseUser
         parent::__construct();
         $this->viewedQuestions = new ArrayCollection();
         $this->questionsChangedRating = new ArrayCollection();
-        $this->$questions = new ArrayCollection();
-        $this->$answers = new ArrayCollection();
+        $this->questions = new ArrayCollection();
+        $this->answers = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+        $this->questionsSavedAsFavorite = new ArrayCollection();
     }
 
     /**

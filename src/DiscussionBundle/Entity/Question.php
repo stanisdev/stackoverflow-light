@@ -86,6 +86,11 @@ class Question
     private $user;
 
     /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="question")
+     */
+    private $comments;
+
+    /**
      * Constructor method
      */
     public function __construct()
@@ -93,6 +98,7 @@ class Question
         $this->tags = new ArrayCollection();
         $this->viewedByUsers = new ArrayCollection();
         $this->usersChangedRating = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     /**
@@ -391,5 +397,39 @@ class Question
     public function getUsersSavedQuestionAsFavorite()
     {
         return $this->usersSavedQuestionAsFavorite;
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \DiscussionBundle\Entity\Comment $comment
+     *
+     * @return Question
+     */
+    public function addComment(\DiscussionBundle\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \DiscussionBundle\Entity\Comment $comment
+     */
+    public function removeComment(\DiscussionBundle\Entity\Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }
