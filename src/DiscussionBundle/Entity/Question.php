@@ -91,6 +91,11 @@ class Question
     private $comments;
 
     /**
+     * @ORM\OneToMany(targetEntity="Answer", mappedBy="question")
+     */
+    private $answers;
+
+    /**
      * Constructor method
      */
     public function __construct()
@@ -431,5 +436,39 @@ class Question
     public function getComments()
     {
         return $this->comments;
+    }
+
+    /**
+     * Add answer
+     *
+     * @param \DiscussionBundle\Entity\Answer $answer
+     *
+     * @return Question
+     */
+    public function addAnswer(\DiscussionBundle\Entity\Answer $answer)
+    {
+        $this->answers[] = $answer;
+
+        return $this;
+    }
+
+    /**
+     * Remove answer
+     *
+     * @param \DiscussionBundle\Entity\Answer $answer
+     */
+    public function removeAnswer(\DiscussionBundle\Entity\Answer $answer)
+    {
+        $this->answers->removeElement($answer);
+    }
+
+    /**
+     * Get answers
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAnswers()
+    {
+        return $this->answers;
     }
 }

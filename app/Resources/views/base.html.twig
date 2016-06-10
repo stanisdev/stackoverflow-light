@@ -5,33 +5,24 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         <link href="{{ asset('resources/css/bootstrap.min.css') }}" rel="stylesheet" />
+        <link href="{{ asset('resources/css/custom.css') }}" rel="stylesheet" />
         <script src="{{ asset('resources/js/jquery-1.10.2.min.js') }}"></script>
         <script src="{{ asset('resources/js/bootstrap.min.js') }}"></script>
     </head>
     <body>
         <div class="container">
             {% include('_partials/navigation.html.twig') %}
-        </div>
-        <div>
-            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
-                <a href="{{ path('fos_user_security_logout') }}">
-                    {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
-                </a>
-            {% else %}
-                <a href="{{ path('fos_user_security_login') }}">Login</a>
-            {% endif %}
-        </div>
 
-        {% for type, messages in app.session.flashBag.all %}
-            {% for message in messages %}
-                <div class="{{ type }}">
-                    {{ message|trans({}, 'FOSUserBundle') }}
-                </div>
+            {% for type, messages in app.session.flashBag.all %}
+                {% for message in messages %}
+                    <div class="{{ type }}">
+                        {{ message|trans({}, 'FOSUserBundle') }}
+                    </div>
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
 
-        {% block fos_user_content %}{% endblock fos_user_content %}
+            {% block fos_user_content %}{% endblock fos_user_content %}
+        </div>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

@@ -59,6 +59,12 @@ class Answer
     private $comments;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Question", inversedBy="answers")
+     * @ORM\JoinColumn(name="question_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    private $question;
+
+    /**
      * Get id
      *
      * @return int
@@ -227,5 +233,29 @@ class Answer
     public function getComments()
     {
         return $this->comments;
+    }
+
+    /**
+     * Set question
+     *
+     * @param \DiscussionBundle\Entity\Question $question
+     *
+     * @return Answer
+     */
+    public function setQuestion(\DiscussionBundle\Entity\Question $question = null)
+    {
+        $this->question = $question;
+
+        return $this;
+    }
+
+    /**
+     * Get question
+     *
+     * @return \DiscussionBundle\Entity\Question
+     */
+    public function getQuestion()
+    {
+        return $this->question;
     }
 }
