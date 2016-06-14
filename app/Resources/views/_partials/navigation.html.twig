@@ -21,8 +21,8 @@
         </li>
 
         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-            <li{% if currentPath == path('ask_question') %} class="active"{% endif %}>
-                <a href="{{ path('ask_question') }}">Ask Question</a>
+            <li{% if currentPath == path('question_new') %} class="active"{% endif %}>
+                <a href="{{ path('question_new') }}">Ask Question</a>
             </li>
             <li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
         {% else %}

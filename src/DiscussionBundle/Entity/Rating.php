@@ -35,6 +35,12 @@ class Rating
     private $question;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Answer", inversedBy="usersChangedRating")
+     * @ORM\JoinColumn(name="answer_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    private $answer;
+
+    /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="questionsChangedRating")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
      */
@@ -120,5 +126,29 @@ class Rating
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set answer
+     *
+     * @param \DiscussionBundle\Entity\Answer $answer
+     *
+     * @return Rating
+     */
+    public function setAnswer(\DiscussionBundle\Entity\Answer $answer = null)
+    {
+        $this->answer = $answer;
+
+        return $this;
+    }
+
+    /**
+     * Get answer
+     *
+     * @return \DiscussionBundle\Entity\Answer
+     */
+    public function getAnswer()
+    {
+        return $this->answer;
     }
 }

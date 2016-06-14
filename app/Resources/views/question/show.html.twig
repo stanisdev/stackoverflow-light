@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block fos_user_content %}
+    {{question.title}}
+    <hr>
+    <style>
+        .cp {
+            cursor: pointer;
+        }
+    </style>
+    <table>
+        <tr>
+            <td style="width: 60px;">
+                <div style="text-align: center;">
+                    {% if question.rating_estimate_by_current_user == -1 %}
+                        {% set estimate = ['none', 'done'] %}
+                    {% elseif question.rating_estimate_by_current_user == 1 %}
+                        {% set estimate = ['done', 'none'] %}
+                    {% else %}
+                        {% set estimate = ['none', 'none'] %}
+                    {% endif %}
+                    <img src="/resources/images/vote-up-{{estimate[0]}}.png" class="cp" />
+                    <p>
+                        {{question.estimate|default(0)}}
+                    </p>
+                    <img src="/resources/images/vote-down-{{estimate[1]}}.png" class="cp" />
+                </div>
+                <div style="text-align: center;">
+                    {% if question.is_favorite_by_current_user %} {% set starClass = 'orange' %} {% else %} {% set starClass = 'gray' %} {% endif %}
+                    <img src="/resources/images/star-{{starClass}}.png" class="cp" />
+                    <br/>
+                    {{question.favorites_count}}
+                </div>
+            </td>
+            <td style="width: 89%;">
+                <div>
+                    <!-- Content -->
+                    {{question.content}}
+                </div>
+                <div style="margin-top: 15px;">
+                    <!-- Tags -->
+                    <div class="btn-toolbar">
+                      <div class="btn-group">
+                          {% set tags = question.tags|split(',') %}
+                          {% for tag in tags %}
+                              <a href="#" class="btn btn-default">{{tag}}</a>
+                          {% endfor %}
+                      </div>
+                    </div>
+                </div>
+                <br/><br/>
+                <div style="float: right;">
+                    <!-- User -->
+                    Asked: {{question.created_at|date("d.m.Y, h:i")}}
+                    <br/>
+                    <a href="{{question.user_id}}">{{question.username}}</a>
+                </div>
+                <div>
+                    <!-- Share link -->
+                    <a href="{{question.uid}}">Share</a>
+                </div>
+                <div>
+                    <!-- Viewed count -->
+                    Viewed: {{question.viewed_count}}
+                </div>
+                <hr>
+                <div>
+                    <!-- Comments -->
+                    {% if not comments %}
+                        There are no comments yet.
+                    {% endif %}
+                    {% for comment in comments %}
+                        {{comment.content}} - <a href="{{comment.userId}}">{{comment.username}}</a> {{comment.createdAt|date("d.m.Y, h:i")}}
+                        {% if app.user and app.user.id == comment.userId %} | <a href="">edit</a> {% endif %}
+                        <hr>
+                    {% endfor %}
+                </div>
+            </td>
+        </tr>
+    </table>
+{% endblock fos_user_content %}

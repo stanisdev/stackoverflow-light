@@ -24,7 +24,7 @@
                     <span style="font-size: 12px;">views: {{question.viewed_count|default('0')}}</span>
                 </td>
                 <td>
-                    <a href="#">{{question.title}}</a> <br/>
+                    <a href="{{ path('question_show', { 'id': question.id }) }}">{{question.title}}</a> <br/>
                     {{question.content}} <br/>
 
                     <div class="btn-toolbar">

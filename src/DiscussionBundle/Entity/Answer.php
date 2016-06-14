@@ -65,6 +65,11 @@ class Answer
     private $question;
 
     /**
+     * @ORM\OneToMany(targetEntity="Rating", mappedBy="answer")
+     */
+    private $usersChangedRating;
+
+    /**
      * Get id
      *
      * @return int
@@ -257,5 +262,39 @@ class Answer
     public function getQuestion()
     {
         return $this->question;
+    }
+
+    /**
+     * Add usersChangedRating
+     *
+     * @param \DiscussionBundle\Entity\Rating $usersChangedRating
+     *
+     * @return Answer
+     */
+    public function addUsersChangedRating(\DiscussionBundle\Entity\Rating $usersChangedRating)
+    {
+        $this->usersChangedRating[] = $usersChangedRating;
+
+        return $this;
+    }
+
+    /**
+     * Remove usersChangedRating
+     *
+     * @param \DiscussionBundle\Entity\Rating $usersChangedRating
+     */
+    public function removeUsersChangedRating(\DiscussionBundle\Entity\Rating $usersChangedRating)
+    {
+        $this->usersChangedRating->removeElement($usersChangedRating);
+    }
+
+    /**
+     * Get usersChangedRating
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUsersChangedRating()
+    {
+        return $this->usersChangedRating;
     }
 }

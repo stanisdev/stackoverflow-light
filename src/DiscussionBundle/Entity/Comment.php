@@ -47,6 +47,13 @@ class Comment
     private $answer;
 
     /**
+     * @var text
+     *
+     * @ORM\Column(name="content", type="text", columnDefinition="TEXT NOT NULL")
+     */
+    private $content;
+
+    /**
      * Get id
      *
      * @return int
@@ -150,5 +157,29 @@ class Comment
     public function getAnswer()
     {
         return $this->answer;
+    }
+
+    /**
+     * Set content
+     *
+     * @param string $content
+     *
+     * @return Comment
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    /**
+     * Get content
+     *
+     * @return string
+     */
+    public function getContent()
+    {
+        return $this->content;
     }
 }
