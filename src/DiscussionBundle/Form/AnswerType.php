@@ -5,12 +5,8 @@ namespace DiscussionBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-//use Symfony\Component\Validator\Constraints\NotBlank;
 
-class QuestionType extends AbstractType
+class AnswerType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -19,18 +15,22 @@ class QuestionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextType::class)
-            ->add('content', TextareaType::class)
-            ->add('ask', SubmitType::class);
+            ->add('content')
+            ->add('uid')
+            ->add('createdAt', 'datetime')
+            ->add('bestAnswer')
+            ->add('user')
+            ->add('question')
+        ;
     }
-
+    
     /**
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'DiscussionBundle\Entity\Question'
+            'data_class' => 'DiscussionBundle\Entity\Answer'
         ));
     }
 }

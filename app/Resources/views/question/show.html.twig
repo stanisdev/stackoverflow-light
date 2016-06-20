@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block fos_user_content %}
-    {{question.title}}
+    <h5>{{question.title}}</h5>
     <hr>
     <style>
         .cp {
@@ -10,7 +10,7 @@
     </style>
     <table>
         <tr>
-            <td style="width: 60px;">
+            <td style="width: 60px; vertical-align: top;">
                 <div style="text-align: center;">
                     {% if question.rating_estimate_by_current_user == -1 %}
                         {% set estimate = ['none', 'done'] %}
@@ -63,17 +63,21 @@
                     <!-- Viewed count -->
                     Viewed: {{question.viewed_count}}
                 </div>
-                <hr>
-                <div>
+                <hr style="margin-bottom: 10px;">
+                <div style="margin-left: 40px;">
                     <!-- Comments -->
                     {% if not comments %}
-                        There are no comments yet.
+                        There no comments yet
                     {% endif %}
                     {% for comment in comments %}
                         {{comment.content}} - <a href="{{comment.userId}}">{{comment.username}}</a> {{comment.createdAt|date("d.m.Y, h:i")}}
-                        {% if app.user and app.user.id == comment.userId %} | <a href="">edit</a> {% endif %}
-                        <hr>
+                        {% if app.user.id == comment.userId %} | <a href="">edit</a> | <a href="">remove</a> {% endif %}
+                        <hr style="margin: 10px 0 10px 0;">
                     {% endfor %}
+                </div>
+                <div style="margin-top: 30px;">
+                    <!-- Answers -->
+                    <h6>2 Answers</h6>
                 </div>
             </td>
         </tr>

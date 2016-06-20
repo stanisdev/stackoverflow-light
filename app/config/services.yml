@@ -4,6 +4,7 @@ parameters:
 #    parameter_name: value
 
 services:
-#    service_name:
-#        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    tools:
+        class: DiscussionBundle\Service\Tools
+        arguments: ["@doctrine"]
+        #arguments: ["@another_service_name", "plain_value", "%parameter_name%"]

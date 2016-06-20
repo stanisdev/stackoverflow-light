@@ -4,6 +4,7 @@ namespace DiscussionBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Question
@@ -27,6 +28,17 @@ class Question
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
+     *
+     * @Assert\Length(
+     *      min = 5,
+     *      max = 255,
+     *      minMessage = "The title must be at least {{ limit }} characters long",
+     *      maxMessage = "The title cannot be longer than {{ limit }} characters"
+     * )
+     *
+     * @Assert\NotBlank(
+     *      message = "The title should not be blank."
+     * )
      */
     private $title;
 
@@ -34,13 +46,22 @@ class Question
      * @var string
      *
      * @ORM\Column(name="content", type="text", columnDefinition="TEXT NOT NULL")
+     *
+     * @Assert\Length(
+     *      min = 20,
+     *      minMessage = "The content of question must be at least {{ limit }} characters long",
+     * )
+     *
+     * @Assert\NotBlank(
+     *      message = "The content of question should not be blank."
+     * )
      */
     private $content;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="uid", type="integer", unique=true, options={"unsigned":true})
+     * @ORM\Column(name="uid", type="integer", options={"unsigned":true})
      */
     private $uid;
 

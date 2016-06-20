@@ -16,7 +16,7 @@ class QuestionController extends Controller
     /**
      * Finds and displays a Question entity and bound entities.
      *
-     * @Route("/{id}", name="question_show")
+     * @Route("/{id}", name="question_show", requirements={"id": "\d+"})
      * @Method("GET")
      */
     public function showAction($id)
@@ -24,19 +24,19 @@ class QuestionController extends Controller
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             $userId = $this->getUser()->getId();
         }
+
+        // Get question information
         $question = $this->getDoctrine()->getRepository('DiscussionBundle:Question')->findOneQuestionById($id, $userId ?? 0);
         if (empty($question)) {
             throw $this->createNotFoundException('The question does not exist');
         }
 
+        // Find comments
         $comments = $this->getDoctrine()->getRepository('DiscussionBundle:Comment')->findCommentsByQuestionId($id);
-        //echo '<pre>'; print_r($question); echo '</pre>';
-        //$deleteForm = $this->createDeleteForm($question);
 
         return $this->render('question/show.html.twig', array(
             'question' => $question,
             'comments' => $comments
-            //'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -48,11 +48,18 @@ class QuestionController extends Controller
      */
     public function newAction(Request $request)
     {
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('homepage');
+        }
         $question = new Question();
         $form = $this->createForm('DiscussionBundle\Form\QuestionType', $question);
         $form->handleRequest($request);
 
+        // Save question
         if ($form->isSubmitted() && $form->isValid()) {
+            $question->setUser($this->getUser());
+            $question->setUid($this->get('tools')->getUid());
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($question);
             $em->flush();
@@ -61,7 +68,6 @@ class QuestionController extends Controller
         }
 
         return $this->render('question/new.html.twig', array(
-            'question' => $question,
             'form' => $form->createView(),
         ));
     }

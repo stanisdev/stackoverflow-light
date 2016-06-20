@@ -14,7 +14,7 @@ class QuestionRepository extends \Doctrine\ORM\EntityRepository
     {
         $sql =
             'SELECT
-                q.id, q.title, q.content, q.created_at, a.answers_count, vq.viewed_count, group_concat(t.name) tags, u.id AS user_id, u.username, r.estimate,
+                q.id, q.title, CONCAT(SUBSTRING_INDEX(q.content, \' \', 15), \'...\') AS content, q.created_at, a.answers_count, vq.viewed_count, group_concat(t.name) tags, u.id AS user_id, u.username, r.estimate,
                 IF (bs.answer_id, 1, NULL) AS best_answer_exists
             FROM question AS q
                 LEFT JOIN (SELECT id, question_id, COUNT(question_id) AS answers_count FROM answer GROUP BY question_id) AS a
@@ -71,5 +71,18 @@ class QuestionRepository extends \Doctrine\ORM\EntityRepository
         $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
         $stmt->execute($params);
         return $stmt->fetch();
+    }
+
+    /**
+     * Find uique uid
+     */
+    public function findUid($uid)
+    {
+        return $this->createQueryBuilder('q')
+            ->where('q.uid = :uid')
+            ->setParameter('uid', $uid)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getArrayResult();
     }
 }

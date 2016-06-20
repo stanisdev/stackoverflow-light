@@ -1,16 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Question creation</h1>
+{% block fos_user_content %}
 
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" />
-    {{ form_end(form) }}
+<form novalidate action="{{ path('question_new') }}" method="post">
+    {% block form_row %}
+    {% spaceless %}
+        <div class="form_row">
+            {{ form_label(form.title) }}
+            {{ form_errors(form.title) }}
+            <br>
+            {{ form_widget(form.title) }}
+        </div>
+        <div class="form_row">
+            {{ form_label(form.content) }}
+            {{ form_errors(form.content) }}
+            <br>
+            {{ form_widget(form.content) }}
+            {{ form_row(form._token) }}
+        </div>
+        {{ form_widget(form.ask) }}
+    {% endspaceless %}
+    {% endblock form_row %}
+</form>
 
-    <ul>
-        <li>
-            <a href="{{ path('question_index') }}">Back to the list</a>
-        </li>
-    </ul>
-{% endblock %}
+{% endblock fos_user_content %}
